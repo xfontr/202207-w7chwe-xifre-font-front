@@ -1,8 +1,9 @@
 {
-  "name": "users-front",
+  "name": "users",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fontsource/montserrat": "^4.5.12",
     "@reduxjs/toolkit": "^1.8.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -14,17 +15,19 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "styled-components": "^5.3.5",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --passWithNoTests",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "test-coverage": "jest src --coverage watchAll=fallse --passWithNoTests"
+    "test-coverage": "jest src --coverage watchAll=fallse"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "husky": "^8.0.1"
   }
 }

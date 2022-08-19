@@ -43,7 +43,7 @@ const SignForm = ({ isSignIn }: SignFormProps): JSX.Element => {
 
           <div className="form-group">
             <LabelStyled htmlFor="field--biography">
-              Something about you:
+              Something about you
             </LabelStyled>
             <InputStyled
               type="text"

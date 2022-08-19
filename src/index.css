@@ -2,9 +2,14 @@
   box-sizing: border-box;
 }
 
+html {
+  color: rgba(8, 17, 27, 1);
+}
+
 body {
   min-height: 100vh;
   margin: 0;
+  background-color: rgba(222, 255, 242, 0.5);
 }
 
 input,

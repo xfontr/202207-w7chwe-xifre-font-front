@@ -1,12 +1,14 @@
+import AppStyled from "./AppStyled";
+
 const App = (): JSX.Element => {
   return (
-    <div className="app">
+    <AppStyled>
       <header className="header">
         <h1>Users</h1>
       </header>
 
       <main className="main"></main>
-    </div>
+    </AppStyled>
   );
 };
 

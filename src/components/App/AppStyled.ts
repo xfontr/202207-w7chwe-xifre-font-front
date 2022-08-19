@@ -14,6 +14,10 @@ const AppStyled = styled.div`
   @media (min-width: ${breakpoints.big}) {
     max-width: ${breakpoints.large};
   }
+
+  h1 {
+    font-variation-settings: 900;
+  }
 `;
 
 export default AppStyled;

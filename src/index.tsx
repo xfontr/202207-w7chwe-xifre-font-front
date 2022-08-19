@@ -5,6 +5,7 @@ import { store } from "./app/store";
 import App from "./components/App/App";
 
 import "@fontsource/montserrat/700.css";
+import "@fontsource/montserrat/500.css";
 import "@fontsource/montserrat/400.css";
 
 import "./index.css";

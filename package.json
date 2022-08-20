@@ -60,7 +60,8 @@
       "src/**/*.ts",
       "!src/app/**.ts",
       "!src/styledMainTheme.ts",
-      "!src/index.tsx"
+      "!src/index.tsx",
+      "!src/test-utils/*"
     ]
   }
 }

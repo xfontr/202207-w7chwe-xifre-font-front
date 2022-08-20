@@ -39,5 +39,30 @@ describe("Given a signUp function returned by a useUsers function", () => {
       expect(mockDispatch).toHaveBeenCalledTimes(1);
       expect(result).toBe(true);
     });
+
+    test("Then it should return false if there was an error", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockRejectedValue(new Error()),
+      });
+      const userToRegister: ProtoUser = {
+        name: "#",
+        image: "#",
+        biography: "#",
+        contacts: { friends: [], enemies: [] },
+      };
+
+      const {
+        result: {
+          current: { signUp },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result = false;
+      await waitFor(async () => {
+        result = await signUp(userToRegister);
+      });
+
+      expect(result).toBe(false);
+    });
   });
 });

@@ -10,18 +10,22 @@ const useUsers = () => {
 
   const signUp = useCallback(
     async (user: ProtoUser): Promise<boolean> => {
-      const tryLogin = await fetch(`${apiUrl}/users/sign-up`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      try {
+        const tryLogin = await fetch(`${apiUrl}/users/sign-up`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
 
-      const newUser: { newUser: User } = await tryLogin.json();
+        const newUser: { newUser: User } = await tryLogin.json();
 
-      dispatch(signUpActionCreator(newUser.newUser));
-      return true;
+        dispatch(signUpActionCreator(newUser.newUser));
+        return true;
+      } catch (error) {
+        return false;
+      }
     },
     [dispatch]
   );

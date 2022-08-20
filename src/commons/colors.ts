@@ -5,7 +5,7 @@ const colors = {
   secondary: "rgba(27, 38, 59, 1)",
   secondaryBright: "rgba(27, 38, 59, 0.8)",
 
-  contrast: "rgba(152, 54, 40, 1)",
+  contrast: "rgb(212 87 69)",
 
   tipography: "rgba(8, 17, 27, 1)",
   tipographyBright: "rgba(8, 17, 27, 0.7)",

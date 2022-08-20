@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { InputStyled, LabelStyled, SignFormStyled } from "./SignFormStyled";
+import Button from "../Button/Button";
 
 interface SignFormProps {
   isSignIn: boolean;
@@ -91,8 +92,7 @@ const SignForm = ({ isSignIn }: SignFormProps): JSX.Element => {
           </div>
         </>
       )}
-
-      <button>{isSignIn ? "Sign in" : "Sign up"}</button>
+      <Button type={"submit"} content={isSignIn ? "Sign in" : "Sign up"} />
     </SignFormStyled>
   );
 };

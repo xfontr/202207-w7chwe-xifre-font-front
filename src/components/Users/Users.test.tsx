@@ -5,20 +5,20 @@ import mockUser from "../../test-utils/mocks/mockUser";
 
 describe("Given a Users component", () => {
   describe("When instantiated", () => {
-    test("It should show a list of users", () => {
+    test("It should show a list of users", async () => {
       global.fetch = jest.fn().mockReturnValue({
-        json: jest.fn().mockRejectedValue({ users: [mockUser] }),
+        json: jest.fn().mockReturnValue({ users: [mockUser] }),
       });
 
-      render(<Users />);
+      await render(<Users />);
 
       const card = [];
       card.push(
-        screen.getAllByRole("heading", { name: mockUser.name, level: 3 })
+        await screen.findAllByRole("heading", { name: mockUser.name, level: 3 })
       );
-      card.push(screen.getAllByAltText(mockUser.name));
-      card.push(screen.getAllByRole("button", { name: "Friends" }));
-      card.push(screen.getAllByRole("button", { name: "Enemies" }));
+      card.push(await screen.findAllByAltText(mockUser.name));
+      card.push(await screen.findAllByRole("button", { name: "Friends" }));
+      card.push(await screen.findAllByRole("button", { name: "Enemies" }));
 
       card.forEach((element) => expect(element[0]).toBeInTheDocument());
     });

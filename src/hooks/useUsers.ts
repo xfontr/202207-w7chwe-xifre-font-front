@@ -63,7 +63,7 @@ const useUsers = () => {
     [dispatch]
   );
 
-  const getAllUsers = async (): Promise<User[] | false> => {
+  const getAllUsers = useCallback(async (): Promise<User[] | false> => {
     try {
       const allUsers = await fetch(`${apiUrl}/users/all`);
       const { users }: { users: User[] } = await allUsers.json();
@@ -76,7 +76,7 @@ const useUsers = () => {
     } catch (error) {
       return false;
     }
-  };
+  }, []);
 
   return { signUp, signIn, getAllUsers };
 };

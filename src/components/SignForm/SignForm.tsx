@@ -3,6 +3,7 @@ import { InputStyled, LabelStyled, SignFormStyled } from "./SignFormStyled";
 import Button from "../Button/Button";
 import useUsers from "../../hooks/useUsers";
 import { ProtoUser, UserToRegister } from "../../store/types/userTypes";
+import { useNavigate } from "react-router-dom";
 
 interface SignFormProps {
   isSignIn: boolean;
@@ -25,6 +26,7 @@ const prepareUser = (initialUser: UserToRegister): ProtoUser => ({
 
 const SignForm = ({ isSignIn }: SignFormProps): JSX.Element => {
   const [inputs, setInputs] = useState(initialState);
+  const navigate = useNavigate();
   const { signUp } = useUsers();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -37,7 +39,11 @@ const SignForm = ({ isSignIn }: SignFormProps): JSX.Element => {
     event.preventDefault();
 
     const newUser = prepareUser(inputs);
-    signUp(newUser);
+    const hasSignedUp = await signUp(newUser);
+
+    if (hasSignedUp) {
+      navigate("/home");
+    }
   };
 
   return (

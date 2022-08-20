@@ -9,6 +9,11 @@ export interface User {
   };
 }
 
+export interface SignInData {
+  name: string;
+  password: string;
+}
+
 export type ProtoUser = Omit<User, "id">;
 
 export type UserToRegister = Omit<ProtoUser, "contacts">;

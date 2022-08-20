@@ -5,9 +5,9 @@ const apiUrl = process.env.REACT_APP_URL as string;
 export const getUserById = async (id: string): Promise<User | false> => {
   try {
     const userById = await fetch(`${apiUrl}/users/${id}`);
-    const fullUser: User = await userById.json();
+    const { user }: { user: User } = await userById.json();
 
-    return fullUser;
+    return user;
   } catch (error) {
     return false;
   }

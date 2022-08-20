@@ -1,5 +1,5 @@
 const HomePage = (): JSX.Element => {
-  return <></>;
+  return <h2>User list</h2>;
 };
 
 export default HomePage;

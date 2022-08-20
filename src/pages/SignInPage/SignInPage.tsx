@@ -1,7 +1,12 @@
 import SignForm from "../../components/SignForm/SignForm";
 
 const SignInPage = (): JSX.Element => {
-  return <SignForm isSignIn={true} />;
+  return (
+    <>
+      <h2>Sign in</h2>
+      <SignForm isSignIn={true} />
+    </>
+  );
 };
 
 export default SignInPage;

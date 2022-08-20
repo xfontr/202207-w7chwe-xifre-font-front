@@ -9,13 +9,13 @@ interface UserProps {
 const User = ({ user }: UserProps): JSX.Element => {
   return (
     <UserStyled>
+      <h3>{user.name}</h3>
       <ProfileImage
         src={user.image}
         alt={user.name}
         loading="lazy"
-        width={250}
+        width={150}
       />
-      <h3>{user.name}</h3>
       <Button content="Friends" type="button" />
       <Button content="Enemies" type="button" />
     </UserStyled>

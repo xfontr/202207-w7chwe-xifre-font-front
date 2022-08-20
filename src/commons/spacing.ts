@@ -6,6 +6,7 @@ const spacing = {
   borderRadiusSmall: "1rem",
 
   gap: "1.5rem",
+  gapSmall: "0.7rem",
 };
 
 export default spacing;

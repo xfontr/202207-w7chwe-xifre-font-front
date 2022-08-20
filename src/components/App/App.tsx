@@ -1,4 +1,5 @@
 import AppStyled from "./AppStyled";
+import SignForm from "../SignForm/SignForm";
 
 const App = (): JSX.Element => {
   return (
@@ -7,7 +8,9 @@ const App = (): JSX.Element => {
         <h1>Users</h1>
       </header>
 
-      <main className="main"></main>
+      <main className="main">
+        <SignForm isSignIn={false} />
+      </main>
     </AppStyled>
   );
 };

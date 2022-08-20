@@ -27,11 +27,17 @@ const Users = (): JSX.Element => {
   return (
     <UsersStyled>
       <UsersStyledList>
-        {users.map((user) => (
-          <li>
-            <User user={user} />
-          </li>
-        ))}
+        {users &&
+          users.map((user) => (
+            <li>
+              <User user={user} key={`${user.name}${user.id.slice(0, 5)}`} />
+            </li>
+          ))}
+        {!users.length && (
+          <span>
+            No users found. Maybe you'd like to talk about us to your friends?
+          </span>
+        )}
       </UsersStyledList>
     </UsersStyled>
   );

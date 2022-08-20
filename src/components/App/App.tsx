@@ -16,14 +16,12 @@ const App = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       const token = localStorage.getItem("token");
-      debugger;
+
       if (token) {
         const decodedToken = getTokenData(token);
-        debugger;
         const user = await getUserById(decodedToken.id);
-        debugger;
+
         if (user) {
-          debugger;
           dispatch(signUpActionCreator(user));
         }
       }
@@ -31,8 +29,9 @@ const App = (): JSX.Element => {
   }, [dispatch]);
 
   const user = useSelector((state: RootState): any => state.users);
-  debugger;
+
   const isUserLogged = user.name ? true : false;
+  console.log(isUserLogged);
 
   return (
     <AppStyled>
@@ -46,10 +45,12 @@ const App = (): JSX.Element => {
             path="/"
             element={<Navigate to={isUserLogged ? "/home" : "/sign-in"} />}
           />
+
           {isUserLogged && <Route path="/home" element={<HomePage />} />}
           {!isUserLogged && (
             <Route path="/home" element={<Navigate to="/sign-in" />} />
           )}
+
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
         </Routes>

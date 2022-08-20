@@ -4,6 +4,7 @@ import { signUpActionCreator } from "../store/slices/userSlice";
 import { Token, TokenContent } from "../store/types/Token";
 import { User, ProtoUser, SignInData } from "../store/types/userTypes";
 import getTokenData from "../utils/auth";
+import getUserById from "../utils/getById";
 
 const apiUrl = process.env.REACT_APP_URL as string;
 
@@ -47,10 +48,13 @@ const useUsers = () => {
         const tokenContent: TokenContent = getTokenData(token.user.token);
         localStorage.setItem("token", token.user.token);
 
-        const userById = await fetch(`${apiUrl}/users/${tokenContent.id}`);
-        const fullUser: User = await userById.json();
+        const fullUser = await getUserById(tokenContent.id);
 
-        dispatch(signUpActionCreator(fullUser));
+        if (!fullUser) {
+          new Error();
+        }
+
+        dispatch(signUpActionCreator(fullUser as User));
         return true;
       } catch (error) {
         return false;

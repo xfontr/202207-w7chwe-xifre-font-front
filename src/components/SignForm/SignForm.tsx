@@ -2,11 +2,7 @@ import { useState } from "react";
 import { InputStyled, LabelStyled, SignFormStyled } from "./SignFormStyled";
 import Button from "../Button/Button";
 import useUsers from "../../hooks/useUsers";
-import {
-  ProtoUser,
-  SignInData,
-  UserToRegister,
-} from "../../store/types/userTypes";
+import { ProtoUser, UserToRegister } from "../../store/types/userTypes";
 import { useNavigate } from "react-router-dom";
 
 interface SignFormProps {

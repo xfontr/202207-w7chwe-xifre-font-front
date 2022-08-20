@@ -1,5 +1,8 @@
+import { Navigate, Route, Routes } from "react-router-dom";
+import HomePage from "../../pages/HomePage/HomePage";
+import SignInPage from "../../pages/SignInPage/SignInPage";
+import SignUpPage from "../../pages/SignUpPage/SignUpPage";
 import AppStyled from "./AppStyled";
-import SignForm from "../SignForm/SignForm";
 
 const App = (): JSX.Element => {
   return (
@@ -9,7 +12,12 @@ const App = (): JSX.Element => {
       </header>
 
       <main className="main">
-        <SignForm isSignIn={true} />
+        <Routes>
+          <Route path="/" element={<Navigate to={"/sign-in"} />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
+        </Routes>
       </main>
     </AppStyled>
   );

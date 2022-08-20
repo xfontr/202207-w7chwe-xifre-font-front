@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { InputStyled, LabelStyled, SignFormStyled } from "./SignFormStyled";
 import Button from "../Button/Button";
+import useUsers from "../../hooks/useUsers";
+import { ProtoUser, UserToRegister } from "../../store/types/userTypes";
 
 interface SignFormProps {
   isSignIn: boolean;
@@ -13,17 +15,33 @@ const initialState = {
   biography: "",
 };
 
+const prepareUser = (initialUser: UserToRegister): ProtoUser => ({
+  ...initialUser,
+  contacts: {
+    friends: [],
+    enemies: [],
+  },
+});
+
 const SignForm = ({ isSignIn }: SignFormProps): JSX.Element => {
   const [inputs, setInputs] = useState(initialState);
+  const { signUp } = useUsers();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInputs({ ...inputs, [`${event.target.name}`]: event.target.value });
   };
 
-  const handleSubmit = (): void => {};
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    event.preventDefault();
+
+    const newUser = prepareUser(inputs);
+    signUp(newUser);
+  };
 
   return (
-    <SignFormStyled onSubmit={handleSubmit}>
+    <SignFormStyled onSubmit={(event) => handleSubmit(event)}>
       <div className="form-group">
         <LabelStyled htmlFor="field--name">Name</LabelStyled>
         <InputStyled

@@ -3,7 +3,7 @@ const mockUser = {
   name: "Pepe",
   image: "#",
   biography: "I like cars",
-  contact: {
+  contacts: {
     friends: ["Jose"],
     enemies: ["Pedro"],
   },

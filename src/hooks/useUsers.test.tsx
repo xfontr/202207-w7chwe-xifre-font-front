@@ -1,4 +1,5 @@
 import { ProtoUser, User } from "../store/types/userTypes";
+import mockTokenData from "../test-utils/mocks/mockTokenData";
 import mockUser from "../test-utils/mocks/mockUser";
 import { renderHook, waitFor, Wrapper } from "../test-utils/renderWrap";
 import useUsers from "./useUsers";
@@ -11,12 +12,6 @@ jest.mock("react-redux", () => ({
     dispatch: mockDispatch(),
   }),
 }));
-
-const mockTokenData = {
-  id: "#",
-  name: "#",
-  iat: 12345,
-};
 
 jest.mock("../utils/auth", () => () => ({
   getTokenData: jest.fn().mockReturnValue(mockTokenData),

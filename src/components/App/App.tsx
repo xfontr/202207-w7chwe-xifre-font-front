@@ -6,7 +6,6 @@ import HomePage from "../../pages/HomePage/HomePage";
 import SignInPage from "../../pages/SignInPage/SignInPage";
 import SignUpPage from "../../pages/SignUpPage/SignUpPage";
 import { signUpActionCreator } from "../../store/slices/userSlice";
-import { User } from "../../store/types/userTypes";
 import getTokenData from "../../utils/auth";
 import getUserById from "../../utils/getById";
 import AppStyled from "./AppStyled";
@@ -17,11 +16,14 @@ const App = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       const token = localStorage.getItem("token");
+      debugger;
       if (token) {
         const decodedToken = getTokenData(token);
+        debugger;
         const user = await getUserById(decodedToken.id);
-        console.log("fetc", user);
+        debugger;
         if (user) {
+          debugger;
           dispatch(signUpActionCreator(user));
         }
       }
@@ -29,7 +31,7 @@ const App = (): JSX.Element => {
   }, [dispatch]);
 
   const user = useSelector((state: RootState): any => state.users);
-
+  debugger;
   const isUserLogged = user.name ? true : false;
 
   return (

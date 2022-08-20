@@ -3,3 +3,9 @@ export interface Token {
     token: string;
   };
 }
+
+export interface TokenContent {
+  id: string;
+  username: string;
+  iat: number;
+}

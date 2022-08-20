@@ -9,7 +9,7 @@ const App = (): JSX.Element => {
       </header>
 
       <main className="main">
-        <SignForm isSignIn={false} />
+        <SignForm isSignIn={true} />
       </main>
     </AppStyled>
   );

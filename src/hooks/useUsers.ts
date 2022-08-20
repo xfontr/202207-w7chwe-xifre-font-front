@@ -1,7 +1,10 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { signUpActionCreator } from "../store/slices/userSlice";
-import { User, ProtoUser } from "../store/types/userTypes";
+import { Token, TokenContent } from "../store/types/Token";
+import { User, ProtoUser, SignInData } from "../store/types/userTypes";
+import getTokenData from "../utils/auth";
+import getUserById from "../utils/getById";
 
 const apiUrl = process.env.REACT_APP_URL as string;
 
@@ -30,7 +33,37 @@ const useUsers = () => {
     [dispatch]
   );
 
-  return { signUp };
+  const signIn = useCallback(
+    async (user: SignInData): Promise<boolean> => {
+      try {
+        const tryLogin = await fetch(`${apiUrl}/users/sign-in`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+
+        const token: Token = await tryLogin.json();
+        const tokenContent: TokenContent = getTokenData(token.user.token);
+        localStorage.setItem("token", token.user.token);
+
+        const fullUser = await getUserById(tokenContent.id);
+
+        if (!fullUser) {
+          new Error();
+        }
+
+        dispatch(signUpActionCreator(fullUser as User));
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+    [dispatch]
+  );
+
+  return { signUp, signIn };
 };
 
 export default useUsers;

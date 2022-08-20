@@ -27,7 +27,7 @@ const prepareUser = (initialUser: UserToRegister): ProtoUser => ({
 const SignForm = ({ isSignIn }: SignFormProps): JSX.Element => {
   const [inputs, setInputs] = useState(initialState);
   const navigate = useNavigate();
-  const { signUp } = useUsers();
+  const { signUp, signIn } = useUsers();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInputs({ ...inputs, [`${event.target.name}`]: event.target.value });
@@ -38,10 +38,18 @@ const SignForm = ({ isSignIn }: SignFormProps): JSX.Element => {
   ): Promise<void> => {
     event.preventDefault();
 
-    const newUser = prepareUser(inputs);
-    const hasSignedUp = await signUp(newUser);
+    let hasSigned = false;
+    if (isSignIn) {
+      hasSigned = await signIn({
+        name: inputs.name,
+        password: inputs.password,
+      });
+    } else {
+      const newUser = prepareUser(inputs);
+      hasSigned = await signUp(newUser);
+    }
 
-    if (hasSignedUp) {
+    if (hasSigned) {
       navigate("/home");
     }
   };

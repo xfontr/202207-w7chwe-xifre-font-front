@@ -1,4 +1,4 @@
-import mockUser from "../../mocks/mockUser";
+import mockUser from "../../test-utils/mocks/mockUser";
 import { signUpActionCreator, usersReducer, usersSlice } from "./userSlice";
 
 describe("Given a usersSlice variable", () => {

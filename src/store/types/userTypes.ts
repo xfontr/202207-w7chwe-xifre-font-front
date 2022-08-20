@@ -1,11 +1,14 @@
-interface User {
+export interface User {
   id: string;
   name: string;
   image: string;
   biography: string;
-  contact: {
+  contacts: {
     friends: string[];
     enemies: string[];
   };
 }
-export default User;
+
+export type ProtoUser = Omit<User, "id">;
+
+export type UserToRegister = Omit<ProtoUser, "contacts">;

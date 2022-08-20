@@ -59,7 +59,6 @@ describe("Given an App component", () => {
       });
 
       localStorage.setItem("token", "#####");
-      render(<App />);
       await render(<App />);
 
       const {

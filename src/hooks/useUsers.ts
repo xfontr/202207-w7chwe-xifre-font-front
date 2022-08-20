@@ -63,7 +63,22 @@ const useUsers = () => {
     [dispatch]
   );
 
-  return { signUp, signIn };
+  const getAllUsers = useCallback(async (): Promise<User[] | false> => {
+    try {
+      const allUsers = await fetch(`${apiUrl}/users/all`);
+      const { users }: { users: User[] } = await allUsers.json();
+
+      if (!users.length) {
+        throw new Error();
+      }
+
+      return users;
+    } catch (error) {
+      return false;
+    }
+  }, []);
+
+  return { signUp, signIn, getAllUsers };
 };
 
 export default useUsers;

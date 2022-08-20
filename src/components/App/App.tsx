@@ -31,7 +31,6 @@ const App = (): JSX.Element => {
   const user = useSelector((state: RootState): any => state.users);
 
   const isUserLogged = user.name ? true : false;
-  console.log(isUserLogged);
 
   return (
     <AppStyled>

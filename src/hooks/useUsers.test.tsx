@@ -146,3 +146,64 @@ describe("Given a signIn function returned by a useUsers function", () => {
     });
   });
 });
+
+describe("Given a getAllUsers function returned from the useUser function", () => {
+  describe("When called", () => {
+    test("Then it should return a list of all the avaliable users from the API", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockReturnValue({ users: [mockUser] }),
+      });
+
+      const {
+        result: {
+          current: { getAllUsers },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: false | User[] = false;
+      await waitFor(async () => {
+        result = await getAllUsers();
+      });
+
+      expect(result).toStrictEqual([mockUser]);
+    });
+
+    test("Then it should return false if no users are found", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockReturnValue({ users: [] }),
+      });
+
+      const {
+        result: {
+          current: { getAllUsers },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: false | User[] = [];
+      await waitFor(async () => {
+        result = await getAllUsers();
+      });
+
+      expect(result).toBe(false);
+    });
+
+    test("Then it should return false if the fetching fails", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockRejectedValue(new Error()),
+      });
+
+      const {
+        result: {
+          current: { getAllUsers },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: false | User[] = [];
+      await waitFor(async () => {
+        result = await getAllUsers();
+      });
+
+      expect(result).toBe(false);
+    });
+  });
+});

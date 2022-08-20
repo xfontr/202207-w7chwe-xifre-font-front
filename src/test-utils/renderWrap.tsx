@@ -7,7 +7,7 @@ interface WrapperProps {
   children: JSX.Element | JSX.Element[];
 }
 
-const Wrapper = ({ children }: WrapperProps): JSX.Element => {
+export const Wrapper = ({ children }: WrapperProps): JSX.Element => {
   return (
     <Provider store={store}>
       <BrowserRouter>{children}</BrowserRouter>

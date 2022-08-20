@@ -6,6 +6,10 @@ import mockUser from "../../test-utils/mocks/mockUser";
 describe("Given a Users component", () => {
   describe("When instantiated", () => {
     test("It should show a list of users", () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockRejectedValue({ users: [mockUser] }),
+      });
+
       render(<Users />);
 
       const card = [];

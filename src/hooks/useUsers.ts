@@ -68,6 +68,10 @@ const useUsers = () => {
       const allUsers = await fetch(`${apiUrl}/users/all`);
       const { users }: { users: User[] } = await allUsers.json();
 
+      if (!users.length) {
+        throw new Error();
+      }
+
       return users;
     } catch (error) {
       return false;

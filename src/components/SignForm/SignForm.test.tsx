@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import SignForm from "./SignForm";
 
 describe("Given a SignForm component", () => {
@@ -39,6 +40,31 @@ describe("Given a SignForm component", () => {
 
       renderedForm.forEach((element) => expect(element).toBeInTheDocument());
       notRendered.forEach((element) => expect(element).not.toBeInTheDocument());
+    });
+  });
+
+  describe("When istantiated and receives input from the user", () => {
+    test("Then it should update the input value to what the user entered", async () => {
+      render(<SignForm isSignIn={false} />);
+
+      const nameInput: HTMLInputElement = screen.getByLabelText("Name");
+      await userEvent.type(nameInput, "hello");
+      expect(nameInput.value).toBe("hello");
+
+      const passwordInput: HTMLInputElement = screen.getByLabelText("Password");
+      await userEvent.type(passwordInput, "hello");
+      expect(passwordInput.value).toBe("hello");
+
+      const imageInput: HTMLInputElement =
+        screen.getByLabelText("Profile picture");
+      await userEvent.type(imageInput, "hello");
+      expect(imageInput.value).toBe("hello");
+
+      const biographyInput: HTMLInputElement = screen.getByLabelText(
+        "Something about you"
+      );
+      await userEvent.type(biographyInput, "hello");
+      expect(biographyInput.value).toBe("hello");
     });
   });
 });

@@ -1,7 +1,12 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import { RootState } from "../../app/store";
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import HomePage from "../../pages/HomePage/HomePage";
 import SignInPage from "../../pages/SignInPage/SignInPage";
 import SignUpPage from "../../pages/SignUpPage/SignUpPage";
@@ -11,31 +16,34 @@ import getUserById from "../../utils/getById";
 import AppStyled from "./AppStyled";
 
 const App = (): JSX.Element => {
+  const [isUserChecked, setCheck] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const shit = useCallback(() => {
+  const navigator = useCallback(() => {
     (async () => {
-      const token = localStorage.getItem("token");
+      if (!isUserChecked) {
+        const token = localStorage.getItem("token");
+        console.log(token);
+        if (token) {
+          const decodedToken = getTokenData(token);
+          const user = await getUserById(decodedToken.id);
 
-      if (token) {
-        const decodedToken = getTokenData(token);
-        const user = await getUserById(decodedToken.id);
-
-        if (user) {
-          await dispatch(signUpActionCreator(user));
-          navigate("/home");
-        } else {
-          navigate("/sign-in");
+          if (user) {
+            await dispatch(signUpActionCreator(user));
+            location.pathname === "/home" && navigate("/home");
+          } else {
+            location.pathname === "/home" && navigate("/sign-in");
+          }
+          setCheck(true);
         }
       }
     })();
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, isUserChecked, location.pathname]);
 
-  const user = useSelector((state: RootState): any => state.users);
-
-  if (!user) {
-    shit();
+  if (isUserChecked === false) {
+    navigator();
   }
 
   return (
@@ -46,13 +54,10 @@ const App = (): JSX.Element => {
 
       <main className="main">
         <Routes>
-          <Route
-            path="/"
-            element={<Navigate to={user ? "/home" : "/sign-in"} />}
-          />
+          <Route path="/" element={<Navigate to="/home" />} />
 
-          {user && <Route path="/home" element={<HomePage />} />}
-          {!user && <Route path="/home" element={<Navigate to="/sign-in" />} />}
+          {<Route path="/home" element={<HomePage />} />}
+          {<Route path="/home" element={<Navigate to="/sign-in" />} />}
 
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />

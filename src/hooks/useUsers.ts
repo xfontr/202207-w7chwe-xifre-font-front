@@ -26,9 +26,12 @@ const useUsers = () => {
           body: JSON.stringify(user),
         });
 
-        const newUser: { newUser: User } = await tryLogin.json();
+        const { newUser, token }: { newUser: User; token: Token } =
+          await tryLogin.json();
 
-        dispatch(signUpActionCreator(newUser.newUser));
+        localStorage.setItem("token", token.user.token);
+        dispatch(signUpActionCreator(newUser));
+
         return true;
       } catch (error) {
         return false;

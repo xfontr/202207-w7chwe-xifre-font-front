@@ -1,16 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../types/userTypes";
 
-const usersInitialState: User = {
-  id: "",
-  name: "",
-  image: "",
-  biography: "",
-  contacts: {
-    friends: [""],
-    enemies: [""],
-  },
-};
+const usersInitialState = false as User | false;
 
 export const usersSlice = createSlice({
   name: "users",

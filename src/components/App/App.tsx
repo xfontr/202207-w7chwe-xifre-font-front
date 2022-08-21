@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { RootState } from "../../app/store";
 import HomePage from "../../pages/HomePage/HomePage";
 import SignInPage from "../../pages/SignInPage/SignInPage";
@@ -12,8 +12,9 @@ import AppStyled from "./AppStyled";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const shit = useCallback(() => {
     (async () => {
       const token = localStorage.getItem("token");
 
@@ -22,15 +23,20 @@ const App = (): JSX.Element => {
         const user = await getUserById(decodedToken.id);
 
         if (user) {
-          dispatch(signUpActionCreator(user));
+          await dispatch(signUpActionCreator(user));
+          navigate("/home");
+        } else {
+          navigate("/sign-in");
         }
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   const user = useSelector((state: RootState): any => state.users);
 
-  const isUserLogged = user.name ? true : false;
+  if (!user) {
+    shit();
+  }
 
   return (
     <AppStyled>
@@ -42,13 +48,11 @@ const App = (): JSX.Element => {
         <Routes>
           <Route
             path="/"
-            element={<Navigate to={isUserLogged ? "/home" : "/sign-in"} />}
+            element={<Navigate to={user ? "/home" : "/sign-in"} />}
           />
 
-          {isUserLogged && <Route path="/home" element={<HomePage />} />}
-          {!isUserLogged && (
-            <Route path="/home" element={<Navigate to="/sign-in" />} />
-          )}
+          {user && <Route path="/home" element={<HomePage />} />}
+          {!user && <Route path="/home" element={<Navigate to="/sign-in" />} />}
 
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />

@@ -7,6 +7,7 @@ const NavBar = (): JSX.Element => {
       <Link to="/home">Home</Link>
       <Link to="/sign-in">Sign in</Link>
       <Link to="/sign-up">Sign up</Link>
+      <Link to="/sign-up">Sign out</Link>
     </NavBarStyled>
   );
 };

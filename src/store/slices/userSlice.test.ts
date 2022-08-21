@@ -2,6 +2,7 @@ import mockUser from "../../test-utils/mocks/mockUser";
 import {
   addEnemyActionCreator,
   addFriendActionCreator,
+  signOutActionCreator,
   signUpActionCreator,
   usersReducer,
   usersSlice,
@@ -77,6 +78,18 @@ describe("Given a usersReducer function", () => {
       const result = usersReducer(mockUser, action);
 
       expect(result).toStrictEqual(expectedUser);
+    });
+  });
+
+  describe("When called with a signOut action", () => {
+    test("Then it should go back to the initial state (false)", () => {
+      const initialState = false;
+
+      const action = signOutActionCreator();
+
+      const result = usersReducer(mockUser, action);
+
+      expect(result).toBe(initialState);
     });
   });
 });

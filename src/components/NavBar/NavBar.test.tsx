@@ -11,7 +11,7 @@ describe("Given a NavBar component", () => {
       navLinks.push(screen.getByRole("link", { name: "Home" }));
       navLinks.push(screen.getByRole("link", { name: "Sign in" }));
       navLinks.push(screen.getByRole("link", { name: "Sign up" }));
-      navLinks.push(screen.getByRole("link", { name: "Sign out" }));
+      navLinks.push(screen.getByRole("button", { name: "Sign out" }));
 
       navLinks.forEach((link) => expect(link).toBeInTheDocument());
     });

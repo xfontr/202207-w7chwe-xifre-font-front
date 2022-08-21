@@ -7,6 +7,7 @@ const NavBarStyled = styled.nav`
   gap: ${spacing.gapSmall};
 
   & > * {
+    background-color: ${colors.primary};
     border-radius: ${spacing.borderRadiusSmall};
     border: 1px solid ${colors.contrast};
     color: ${colors.contrast};

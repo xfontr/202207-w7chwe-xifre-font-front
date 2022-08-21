@@ -115,7 +115,7 @@ const useUsers = () => {
         return false;
       }
     },
-    []
+    [dispatch]
   );
 
   return { signUp, signIn, getAllUsers, addContact };

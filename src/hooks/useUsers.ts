@@ -1,6 +1,10 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { signUpActionCreator } from "../store/slices/userSlice";
+import {
+  addEnemyActionCreator,
+  addFriendActionCreator,
+  signUpActionCreator,
+} from "../store/slices/userSlice";
 import { Token, TokenContent } from "../store/types/Token";
 import { User, ProtoUser, SignInData } from "../store/types/userTypes";
 import getTokenData from "../utils/auth";
@@ -98,6 +102,12 @@ const useUsers = () => {
 
         if (response["error"]) {
           throw new Error();
+        }
+
+        if (contact === "friend") {
+          dispatch(addFriendActionCreator(friendId));
+        } else {
+          dispatch(addEnemyActionCreator(friendId));
         }
 
         return true;

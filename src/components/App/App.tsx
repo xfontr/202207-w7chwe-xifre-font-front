@@ -25,7 +25,7 @@ const App = (): JSX.Element => {
     (async () => {
       if (!isUserChecked) {
         const token = localStorage.getItem("token");
-        console.log(token);
+
         if (token) {
           const decodedToken = getTokenData(token);
           const user = await getUserById(decodedToken.id);

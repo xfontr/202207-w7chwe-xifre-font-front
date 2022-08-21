@@ -8,7 +8,7 @@ describe("Given a NavBar component", () => {
 
       screen.getByRole("link", { name: "Home" });
       screen.getByRole("link", { name: "Sign in" });
-      screen.getByRole("link", { name: "Sign out" });
+      screen.getByRole("link", { name: "Sign up" });
     });
   });
 });

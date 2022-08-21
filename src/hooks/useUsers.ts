@@ -1,6 +1,10 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { signUpActionCreator } from "../store/slices/userSlice";
+import {
+  addEnemyActionCreator,
+  addFriendActionCreator,
+  signUpActionCreator,
+} from "../store/slices/userSlice";
 import { Token, TokenContent } from "../store/types/Token";
 import { User, ProtoUser, SignInData } from "../store/types/userTypes";
 import getTokenData from "../utils/auth";
@@ -82,7 +86,39 @@ const useUsers = () => {
     }
   }, []);
 
-  return { signUp, signIn, getAllUsers };
+  const addContact = useCallback(
+    async (userId: string, friendId: string, contact: "friend" | "enemy") => {
+      try {
+        const newContact = await fetch(
+          `${apiUrl}/users/add-${contact}/${userId}/${friendId}`,
+          {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const response = await newContact.json();
+
+        if (response["error"]) {
+          throw new Error();
+        }
+
+        if (contact === "friend") {
+          dispatch(addFriendActionCreator(friendId));
+        } else {
+          dispatch(addEnemyActionCreator(friendId));
+        }
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+    [dispatch]
+  );
+
+  return { signUp, signIn, getAllUsers, addContact };
 };
 
 export default useUsers;

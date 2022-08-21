@@ -1,3 +1,7 @@
+import {
+  addEnemyActionCreator,
+  addFriendActionCreator,
+} from "../store/slices/userSlice";
 import { ProtoUser, User } from "../store/types/userTypes";
 import mockTokenData from "../test-utils/mocks/mockTokenData";
 import mockUser from "../test-utils/mocks/mockUser";
@@ -5,11 +9,12 @@ import { renderHook, waitFor, Wrapper } from "../test-utils/renderWrap";
 import useUsers from "./useUsers";
 
 const mockDispatch = jest.fn();
+let mockReturns: any;
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => () => ({
-    dispatch: mockDispatch(),
+    dispatch: mockDispatch(mockReturns),
   }),
 }));
 
@@ -204,6 +209,103 @@ describe("Given a getAllUsers function returned from the useUser function", () =
       });
 
       expect(result).toBe(false);
+    });
+  });
+});
+
+describe("Given a addContact function returned from a useUsers function", () => {
+  describe("When called with an id, a friend id and a type of contact as arguments", () => {
+    test("Then it should return true if a new contact was added", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockReturnValue({ addedToContacts: "Success message" }),
+      });
+
+      const {
+        result: {
+          current: { addContact },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: boolean = false;
+      await waitFor(async () => {
+        result = await addContact("#", "#", "friend");
+      });
+
+      expect(result).toBe(true);
+    });
+
+    test("Then it should return false if the API didn't add the contact", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockReturnValue({ error: "Fail message" }),
+      });
+
+      const {
+        result: {
+          current: { addContact },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: boolean = false;
+      await waitFor(async () => {
+        result = await addContact("#", "#", "friend");
+      });
+
+      expect(result).toBe(false);
+    });
+
+    test("Then it should return false if an error was thrown", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockRejectedValue(new Error()),
+      });
+
+      const {
+        result: {
+          current: { addContact },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: boolean = false;
+      await waitFor(async () => {
+        result = await addContact("#", "#", "friend");
+      });
+
+      expect(result).toBe(false);
+    });
+
+    test("If a new contact was added, then it should call the dispatch for a new friend", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockReturnValue({ addedToContacts: "Success message" }),
+      });
+      mockReturns = { payload: "#", type: "users/addFriend" };
+      const {
+        result: {
+          current: { addContact },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      await waitFor(async () => {
+        await addContact("#", "#", "friend");
+      });
+
+      expect(mockDispatch).toHaveBeenCalledWith(addFriendActionCreator("#"));
+    });
+
+    test("If a new contact was added, then it should call the dispatch for a new enemy", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockReturnValue({ addedToContacts: "Success message" }),
+      });
+      mockReturns = { payload: "#", type: "users/addEnemy" };
+      const {
+        result: {
+          current: { addContact },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      await waitFor(async () => {
+        await addContact("#", "#", "enemy");
+      });
+
+      expect(mockDispatch).toHaveBeenCalledWith(addEnemyActionCreator("#"));
     });
   });
 });

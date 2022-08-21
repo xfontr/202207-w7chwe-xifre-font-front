@@ -8,6 +8,9 @@ export const usersSlice = createSlice({
   initialState: usersInitialState,
   reducers: {
     signUp: (_, action: PayloadAction<User>) => action.payload,
+
+    signOut: () => usersInitialState,
+
     addFriend: (previousState, action: PayloadAction<string>) => ({
       ...(previousState as User),
       contacts: {
@@ -15,6 +18,7 @@ export const usersSlice = createSlice({
         friends: [...(previousState as User).contacts.friends, action.payload],
       },
     }),
+
     addEnemy: (previousState, action: PayloadAction<string>) => ({
       ...(previousState as User),
       contacts: {
@@ -28,5 +32,6 @@ export const usersSlice = createSlice({
 export const usersReducer = usersSlice.reducer;
 
 export const { signUp: signUpActionCreator } = usersSlice.actions;
+export const { signOut: signOutActionCreator } = usersSlice.actions;
 export const { addFriend: addFriendActionCreator } = usersSlice.actions;
 export const { addEnemy: addEnemyActionCreator } = usersSlice.actions;

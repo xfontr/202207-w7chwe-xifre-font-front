@@ -1,5 +1,11 @@
 import mockUser from "../../test-utils/mocks/mockUser";
-import { signUpActionCreator, usersReducer, usersSlice } from "./userSlice";
+import {
+  addEnemyActionCreator,
+  addFriendActionCreator,
+  signUpActionCreator,
+  usersReducer,
+  usersSlice,
+} from "./userSlice";
 
 describe("Given a usersSlice variable", () => {
   describe("When called", () => {
@@ -35,6 +41,42 @@ describe("Given a usersReducer function", () => {
 
       const result = usersReducer(mockUser, action);
       expect(result).toEqual(expectedUser);
+    });
+  });
+
+  describe("When called with a addFriend action with an id as a payload", () => {
+    test("Then it should return previous user with a new friend", () => {
+      const id = "000";
+      const expectedUser = {
+        ...mockUser,
+        contacts: {
+          ...mockUser.contacts,
+          friends: [...mockUser.contacts.friends, id],
+        },
+      };
+      const action = addFriendActionCreator(id);
+
+      const result = usersReducer(mockUser, action);
+
+      expect(result).toStrictEqual(expectedUser);
+    });
+  });
+
+  describe("When called with a addEnemy action with an id as a payload", () => {
+    test("Then it should return previous user with a new enemy", () => {
+      const id = "000";
+      const expectedUser = {
+        ...mockUser,
+        contacts: {
+          ...mockUser.contacts,
+          enemies: [...mockUser.contacts.enemies, id],
+        },
+      };
+      const action = addEnemyActionCreator(id);
+
+      const result = usersReducer(mockUser, action);
+
+      expect(result).toStrictEqual(expectedUser);
     });
   });
 });

@@ -1,7 +1,20 @@
 import { render } from "../../test-utils/renderWrap";
-import { screen } from "@testing-library/react";
+import { screen, render as reactRender } from "@testing-library/react";
 import Users from "./Users";
 import mockUser from "../../test-utils/mocks/mockUser";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import mockStore from "../../test-utils/mocks/mockStore";
+
+interface WrapperProps {
+  children: JSX.Element | JSX.Element[];
+}
+
+const Wrapper = ({ children }: WrapperProps): JSX.Element => (
+  <Provider store={mockStore}>
+    <BrowserRouter>{children}</BrowserRouter>
+  </Provider>
+);
 
 describe("Given a Users component", () => {
   describe("When instantiated", () => {
@@ -10,7 +23,7 @@ describe("Given a Users component", () => {
         json: jest.fn().mockReturnValue({ users: [mockUser] }),
       });
 
-      await render(<Users />);
+      await reactRender(<Users />, { wrapper: Wrapper });
 
       const card = [];
       card.push(

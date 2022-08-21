@@ -16,7 +16,7 @@ jest.mock("../../hooks/useUsers", () => ({
 describe("Given a User component", () => {
   describe("When instantiated with a User as props", () => {
     test("Then it should show the user profile picture, name and 2 option buttons", () => {
-      render(<User user={mockUser} />);
+      render(<User contact={false} user={mockUser} />);
 
       const imageWithAltText = screen.getByAltText(mockUser.name);
       const name = screen.getByRole("heading", { name: mockUser.name });
@@ -30,7 +30,7 @@ describe("Given a User component", () => {
 
   describe("When clicked the add enemy button", () => {
     test("Then it should call a functin addContact", async () => {
-      render(<User user={mockUser} />);
+      render(<User contact={false} user={mockUser} />);
 
       const button = screen.getByRole("button", { name: "Enemies" });
 
@@ -42,7 +42,7 @@ describe("Given a User component", () => {
 
   describe("When clicked the add friend button", () => {
     test("Then it should call a functin addContact", async () => {
-      render(<User user={mockUser} />);
+      render(<User contact={false} user={mockUser} />);
 
       const button = screen.getByRole("button", { name: "Friends" });
 

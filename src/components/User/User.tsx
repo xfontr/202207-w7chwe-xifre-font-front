@@ -7,9 +7,10 @@ import { ProfileImage, UserStyled } from "./UserStyled";
 
 interface UserProps {
   user: IUser;
+  contact: "friend" | "enemy" | false;
 }
 
-const User = ({ user }: UserProps): JSX.Element => {
+const User = ({ user, contact }: UserProps): JSX.Element => {
   const { addContact } = useUsers();
   const thisUser = useSelector((state: RootState): any => state.users);
 
@@ -29,13 +30,13 @@ const User = ({ user }: UserProps): JSX.Element => {
         width={150}
       />
       <Button
-        content="Friends"
+        content={contact === "friend" ? "Delete friend" : "Friends"}
         type="button"
         key="friends-button"
         action={() => handleAddContact("friend")}
       />
       <Button
-        content="Enemies"
+        content={contact === "enemy" ? "Delete enemy" : "Enemies"}
         type="button"
         key="enemies-button"
         action={() => handleAddContact("enemy")}

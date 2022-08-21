@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 import useUsers from "../../hooks/useUsers";
 import { User as IUser } from "../../store/types/userTypes";
 import User from "../User/User";
@@ -7,6 +9,9 @@ import { UsersStyled, UsersStyledList } from "./UsersStyled";
 const Users = (): JSX.Element => {
   const { getAllUsers } = useUsers();
   const [users, setUsers] = useState([] as IUser[]);
+  const thisUser = useSelector(
+    (state: RootState): IUser => state.users as IUser
+  );
 
   const loadUsers = useCallback(async () => {
     const gotUsers = await getAllUsers();
@@ -24,13 +29,34 @@ const Users = (): JSX.Element => {
     loadUsers();
   }, [loadUsers]);
 
+  const checkIfContact = (contact: string): "friend" | "enemy" | false => {
+    const isFriend = thisUser.contacts.friends.find(
+      (friend) => friend === contact
+    );
+    const isEnemy = thisUser.contacts.enemies.find(
+      (enemy) => enemy === contact
+    );
+
+    if (isFriend) {
+      return "friend";
+    }
+    if (isEnemy) {
+      return "enemy";
+    }
+    return false;
+  };
+
   return (
     <UsersStyled>
       <UsersStyledList>
         {users &&
           users.map((user) => (
             <li>
-              <User user={user} key={`${user.name}${user.id.slice(0, 5)}`} />
+              <User
+                user={user}
+                contact={checkIfContact(user.id)}
+                key={`${user.name}${user.id.slice(0, 5)}`}
+              />
             </li>
           ))}
         {!users.length && (

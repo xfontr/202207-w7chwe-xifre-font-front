@@ -32,7 +32,9 @@ describe("Given a signUp function returned by a useUsers function", () => {
   describe("When called with a user as an argument", () => {
     test("Then it should return true if the user was added, and call the dispatch to sign the user up", async () => {
       global.fetch = jest.fn().mockReturnValue({
-        json: jest.fn().mockReturnValue(mockUser),
+        json: jest
+          .fn()
+          .mockReturnValue({ mockUser, token: { user: mockTokenData } }),
       });
       const userToRegister: ProtoUser = {
         name: "#",

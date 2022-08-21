@@ -65,7 +65,11 @@ const useUsers = () => {
 
   const getAllUsers = useCallback(async (): Promise<User[] | false> => {
     try {
-      const allUsers = await fetch(`${apiUrl}/users/all`);
+      const allUsers = await fetch(`${apiUrl}/users/all`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const { users }: { users: User[] } = await allUsers.json();
 
       if (!users.length) {

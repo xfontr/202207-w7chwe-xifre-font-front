@@ -4,7 +4,11 @@ const apiUrl = process.env.REACT_APP_URL as string;
 
 export const getUserById = async (id: string): Promise<User | false> => {
   try {
-    const userById = await fetch(`${apiUrl}/users/${id}`);
+    const userById = await fetch(`${apiUrl}/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     const { user }: { user: User } = await userById.json();
 
     return user;

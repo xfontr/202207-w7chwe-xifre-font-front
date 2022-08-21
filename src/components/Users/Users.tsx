@@ -51,7 +51,7 @@ const Users = (): JSX.Element => {
       <UsersStyledList>
         {users &&
           users.map((user) => (
-            <li>
+            <li key={`${user.name}${user.id.slice(0, 4)}`}>
               <User
                 user={user}
                 contact={checkIfContact(user.id)}

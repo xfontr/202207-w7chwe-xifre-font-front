@@ -207,3 +207,64 @@ describe("Given a getAllUsers function returned from the useUser function", () =
     });
   });
 });
+
+describe("Given a addContact function returned from a useUsers function", () => {
+  describe("When called with an id, a friend id and a type of contact as arguments", () => {
+    test("Then it should return true if a new contact was added", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockReturnValue({ addedToContacts: "Success message" }),
+      });
+
+      const {
+        result: {
+          current: { addContact },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: boolean = false;
+      await waitFor(async () => {
+        result = await addContact("#", "#", "friend");
+      });
+
+      expect(result).toBe(true);
+    });
+
+    test("Then it should return false if the API didn't add the contact", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockReturnValue({ error: "Fail message" }),
+      });
+
+      const {
+        result: {
+          current: { addContact },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: boolean = false;
+      await waitFor(async () => {
+        result = await addContact("#", "#", "friend");
+      });
+
+      expect(result).toBe(false);
+    });
+
+    test("Then it should return false if an error was thrown", async () => {
+      global.fetch = jest.fn().mockReturnValue({
+        json: jest.fn().mockRejectedValue(new Error()),
+      });
+
+      const {
+        result: {
+          current: { addContact },
+        },
+      } = renderHook(useUsers, { wrapper: Wrapper });
+
+      let result: boolean = false;
+      await waitFor(async () => {
+        result = await addContact("#", "#", "friend");
+      });
+
+      expect(result).toBe(false);
+    });
+  });
+});

@@ -82,7 +82,33 @@ const useUsers = () => {
     }
   }, []);
 
-  return { signUp, signIn, getAllUsers };
+  const addContact = useCallback(
+    async (userId: string, friendId: string, contact: "friend" | "enemy") => {
+      try {
+        const newContact = await fetch(
+          `${apiUrl}/users/add-${contact}/${userId}/${friendId}`,
+          {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const response = await newContact.json();
+
+        if (response["error"]) {
+          throw new Error();
+        }
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+    []
+  );
+
+  return { signUp, signIn, getAllUsers, addContact };
 };
 
 export default useUsers;

@@ -1,9 +1,18 @@
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { signOutActionCreator } from "../../store/slices/userSlice";
 import Button from "../Button/Button";
 import NavBarStyled from "./NavBarStyled";
 
 const NavBar = (): JSX.Element => {
-  const handleSignOut = () => {};
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    localStorage.clear();
+    dispatch(signOutActionCreator());
+    navigate("/sign-in");
+  };
 
   return (
     <NavBarStyled>

@@ -14,6 +14,7 @@ import { signUpActionCreator } from "../../store/slices/userSlice";
 import getTokenData from "../../utils/auth";
 import getUserById from "../../utils/getById";
 import AppStyled from "./AppStyled";
+import NavBar from "../NavBar/NavBar";
 
 const App = (): JSX.Element => {
   const [isUserChecked, setCheck] = useState(false);
@@ -50,6 +51,7 @@ const App = (): JSX.Element => {
     <AppStyled>
       <header className="header">
         <h1>Users</h1>
+        <NavBar />
       </header>
 
       <main className="main">

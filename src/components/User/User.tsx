@@ -16,8 +16,8 @@ const User = ({ user }: UserProps): JSX.Element => {
         loading="lazy"
         width={150}
       />
-      <Button content="Friends" type="button" />
-      <Button content="Enemies" type="button" />
+      <Button content="Friends" type="button" key="friends-button" />
+      <Button content="Enemies" type="button" key="enemies-button" />
     </UserStyled>
   );
 };

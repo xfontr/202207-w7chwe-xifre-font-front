@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface IUserInterface {
+export interface IUserInterface {
   isVisible: boolean;
   state: "error" | "success" | "loading";
 }
